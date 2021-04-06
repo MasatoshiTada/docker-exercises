@@ -31,14 +31,6 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED             STATU
 e026f95ec496   nginx:1.19     "/docker-entrypoint.…"   2 minutes ago       Created                                  vibrant_jang
 ```
 
-(2) 次のコマンドで、コンテナが作成されたことを確認してください。併せて、コンテナIDをメモしてください。
-
-```bash
-$ docker container ls -a
-CONTAINER ID   IMAGE          COMMAND                  CREATED             STATUS                         PORTS     NAMES
-e026f95ec496   nginx:1.19     "/docker-entrypoint.…"   2 minutes ago       Created                                  vibrant_jang
-```
-
 (3) 次のコマンドで、まだコンテナが起動していないことを確認してください。
 
 ```bash
@@ -54,15 +46,15 @@ $ docker container start e026f95ec496
 e026f95ec496
 ```
 
-(2) ブラウザで http://localhost:8080 にアクセスしてください。Nginxのトップページが表示されれば成功です。
-
-(3) 次のコマンドで、コンテナが起動したことを確認してください。
+(2) 次のコマンドで、コンテナが起動したことを確認してください。
 
 ```bash
 $ docker container ls 
 CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS         PORTS                  NAMES
 e026f95ec496   nginx:1.19   "/docker-entrypoint.…"   3 minutes ago    Up 1 minutes   0.0.0.0:8080->80/tcp   vibrant_jang
 ```
+
+(3) ブラウザで http://localhost:8080 にアクセスしてください。Nginxのトップページが表示されれば成功です。
 
 ## コンテナの一時停止・再開
 (1) 次のコマンドで、コンテナ内の全プロセスを一時停止してください。
@@ -132,7 +124,7 @@ $ docker container rm e026f95ec496
 e026f95ec496
 ```
 
-(3) 次のコマンドで、コンテナが削除されたことを確認してください。
+(2) 次のコマンドで、コンテナが削除されたことを確認してください。
 
 ```bash
 $ docker container ls -a
