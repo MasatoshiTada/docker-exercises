@@ -104,7 +104,7 @@ spring-boot-sample                                                            0.
 (1) 次のコマンドで、コンテナを起動してください（run.shに同じコマンドが書いてあります）。
 
 ```bash
-$ docker container run --rm -p 8080:80 spring-boot-sample:0.0.1
+$ docker container run --rm -p 8080:8080 spring-boot-sample:0.0.1
 ```
 
 (2) ブラウザで http://localhost:8080 にアクセスしてください。「Spring Boot Sample」と表示されれば成功です。
@@ -136,14 +136,14 @@ $ docker tag spring-boot-sample:0.0.1 xxxxxxxx/spring-boot-sample:0.0.1
 $ docker image ls
 REPOSITORY                                                                    TAG                                                     IMAGE ID       CREATED         SIZE
 spring-boot-sample                                                            0.0.1                                                   616af77ebd5e   6 minutes ago   655MB
-mtada/spring-boot-sample                                                      0.0.1                                                   616af77ebd5e   6 minutes ago   655MB
+xxxxxxxx/spring-boot-sample                                                      0.0.1                                                   616af77ebd5e   6 minutes ago   655MB
 ```
 
 (5) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。
 
 ```bash
 $ docker image push xxxxxxxx/spring-boot-sample:0.0.1        
-The push refers to repository [docker.io/mtada/spring-boot-sample]
+The push refers to repository [docker.io/xxxxxxxx/spring-boot-sample]
 708da93caf6c: Pushed 
 9c1a40efc0ba: Pushed 
 173ef8ff1904: Mounted from library/maven 
