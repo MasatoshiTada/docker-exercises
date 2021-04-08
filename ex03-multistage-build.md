@@ -96,8 +96,8 @@ $ docker image build -t spring-boot-sample:0.0.1 .
 
 ```bash
 $ docker image ls
-REPOSITORY                                                                    TAG                                                     IMAGE ID       CREATED              SIZE
-spring-boot-sample                                                            0.0.1                                                   616af77ebd5e   About a minute ago   655MB
+REPOSITORY                       TAG                       IMAGE ID       CREATED              SIZE
+spring-boot-sample               0.0.1                     616af77ebd5e   About a minute ago   655MB
 ```
 
 ## コンテナの起動
@@ -134,9 +134,9 @@ $ docker tag spring-boot-sample:0.0.1 xxxxxxxx/spring-boot-sample:0.0.1
 
 ```bash
 $ docker image ls
-REPOSITORY                                                                    TAG                                                     IMAGE ID       CREATED         SIZE
-spring-boot-sample                                                            0.0.1                                                   616af77ebd5e   6 minutes ago   655MB
-xxxxxxxx/spring-boot-sample                                                      0.0.1                                                   616af77ebd5e   6 minutes ago   655MB
+REPOSITORY                       TAG                       IMAGE ID       CREATED         SIZE
+spring-boot-sample               0.0.1                     616af77ebd5e   6 minutes ago   655MB
+xxxxxxxx/spring-boot-sample      0.0.1                     616af77ebd5e   6 minutes ago   655MB
 ```
 
 (5) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。
