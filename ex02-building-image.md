@@ -13,10 +13,10 @@ $ cd ex02
 ```
 
 # 手順
-## Dockerfileの作成
+## コンテナイメージのビルド
 (1) エディタなどでDockerfileの内容を確認してください。
 
-```Dockerfile:Dockerfile
+```Dockerfile
 # ベースイメージはUbuntu 20.04
 FROM ubuntu:20.04
 
@@ -41,10 +41,9 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-## コンテナイメージのビルド
-(1) 次のコマンドで、コンテナイメージをビルドしてください。
+(2) 次のコマンドで、コンテナイメージをビルドしてください（build.shに同じコマンドが書いてあります）。
 
-```bash:build.sh
+```bash
 $ docker image build -t my-nginx:0.0.1 .
 [+] Building 0.1s (8/8) FINISHED                                                                                                    
  => [internal] load build definition from Dockerfile                                                                           0.0s
@@ -63,11 +62,64 @@ $ docker image build -t my-nginx:0.0.1 .
  => => naming to docker.io/library/my-nginx:0.0.1                                                                              0.0s
 ```
 
-## コンテナの起動
-(1) 次のコマンドで、コンテナを起動してください。
+(3) 次のコマンドで、コンテナイメージが作成されたことを確認してください。
 
-```bash:run.sh
+```bash
+$ docker image ls
+REPOSITORY                                                                    TAG                                                     IMAGE ID       CREATED          SIZE
+my-nginx                                                                      0.0.1                                                   4ef5d7a3c65c    1 minutes ago   149MB
+```
+
+## コンテナの起動
+(1) 次のコマンドで、コンテナを起動してください（run.shに同じコマンドが書いてあります）。
+
+```bash
 $ docker container run --rm -p 8080:80 my-nginx:0.0.1
 ```
 
 (2) ブラウザで http://localhost:8080 にアクセスしてください。サンプルページが表示されれば成功です。
+
+(3) ターミナルでCtrl+Cを押下してください。コンテナが停止します。
+
+## コンテナイメージのアップロード
+(1) まだDocker Hubのアカウントを持っていない場合は、 https://hub.docker.com/ から作成してください。
+
+(2) 次のコマンドで、Docker Hubにログインしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
+
+```bash
+$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: xxxxxxxx
+Password: 
+Login Succeeded
+```
+
+(3) 次のコマンドで、コンテナイメージに自分のユーザー名を含むタグを付加してください。
+
+```bash
+$ docker tag my-nginx:0.0.1 xxxxxxxx/my-nginx:0.0.1
+```
+
+(4) 次のコマンドで、先ほど付加したタグを確認してください。コンテナイメージが2つあるように見えますが、1つのイメージに2つのタグが付加されているだけです（ `IMAGE ID` が同じであることから、同一のイメージであることが分かります）。
+
+```bash
+$ docker image ls
+REPOSITORY                                                                    TAG                                                     IMAGE ID       CREATED          SIZE
+my-nginx                                                                      0.0.1                                                   4ef5d7a3c65c   27 minutes ago   149MB
+xxxxxxxx/my-nginx                                                             0.0.1                                                   4ef5d7a3c65c   27 minutes ago   149MB
+```
+
+(5) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。
+
+```bash
+$ docker image push mtada/my-nginx:0.0.1        
+The push refers to repository [docker.io/mtada/my-nginx]
+3017b72d93d7: Pushed 
+69b4b94864b7: Pushed 
+7137a365e1e4: Pushed 
+9c64db1afb9e: Pushed 
+8d4eb2300df0: Pushed 
+0.0.1: digest: sha256:d1be392b494958959d11189adbe3a1e08bfdd8d6be3eccd70ef9f1df9ace8b20 size: 1362
+```
+
+(6) ブラウザで https://hub.docker.com/ にアクセスしてください。コンテナイメージ一覧の中にmy-nginxが確認できるはずです。
