@@ -112,8 +112,8 @@ xxxxxxxx/my-nginx                                                             0.
 (5) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。
 
 ```bash
-$ docker image push mtada/my-nginx:0.0.1        
-The push refers to repository [docker.io/mtada/my-nginx]
+$ docker image push xxxxxxxx/my-nginx:0.0.1        
+The push refers to repository [docker.io/xxxxxxxx/my-nginx]
 3017b72d93d7: Pushed 
 69b4b94864b7: Pushed 
 7137a365e1e4: Pushed 
