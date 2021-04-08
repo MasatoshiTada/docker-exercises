@@ -66,8 +66,8 @@ $ docker image build -t my-nginx:0.0.1 .
 
 ```bash
 $ docker image ls
-REPOSITORY                                                                    TAG                                                     IMAGE ID       CREATED          SIZE
-my-nginx                                                                      0.0.1                                                   4ef5d7a3c65c    1 minutes ago   149MB
+REPOSITORY                       TAG                       IMAGE ID       CREATED          SIZE
+my-nginx                         0.0.1                     4ef5d7a3c65c    1 minutes ago   149MB
 ```
 
 ## コンテナの起動
@@ -104,9 +104,9 @@ $ docker tag my-nginx:0.0.1 xxxxxxxx/my-nginx:0.0.1
 
 ```bash
 $ docker image ls
-REPOSITORY                                                                    TAG                                                     IMAGE ID       CREATED          SIZE
-my-nginx                                                                      0.0.1                                                   4ef5d7a3c65c   27 minutes ago   149MB
-xxxxxxxx/my-nginx                                                             0.0.1                                                   4ef5d7a3c65c   27 minutes ago   149MB
+REPOSITORY                       TAG                       IMAGE ID       CREATED          SIZE
+my-nginx                         0.0.1                     4ef5d7a3c65c   27 minutes ago   149MB
+xxxxxxxx/my-nginx                0.0.1                     4ef5d7a3c65c   27 minutes ago   149MB
 ```
 
 (5) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。

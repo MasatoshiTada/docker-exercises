@@ -54,7 +54,7 @@ CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS    
 e026f95ec496   nginx:1.19   "/docker-entrypoint.…"   3 minutes ago    Up 1 minutes   0.0.0.0:8080->80/tcp   vibrant_jang
 ```
 
-(3) ブラウザで http://localhost:8080 にアクセスしてください。Nginxのトップページが表示されれば成功です。
+(3) ブラウザで http://localhost:8080 にアクセスしてください。Nginxのトップページが表示されれば成功です。なお、このページは後の手順でも使いますので、開いたままにしておいてください。
 
 ## コンテナの一時停止・再開
 (1) 次のコマンドで、コンテナ内の全プロセスを一時停止してください。
