@@ -4,7 +4,7 @@
 # この演習の目的
 Docker Composeで複数のコンテナを起動します。
 
-本演習のコマンドは、すべてex03フォルダで実行してください。
+本演習のコマンドは、すべてex04フォルダで実行してください。
 
 ```shell
 $ cd ex04
@@ -43,9 +43,12 @@ $ docker compose up -d
  ⠿ Container db-server   Started     0.7s
 ```
 
-> `-d`オプションは、コンテナをバックグラウンドで動くよう指定します。
+> - `-d`オプションは、コンテナをバックグラウンドで動くよう指定します。
+> - `docker-compose`コマンドは非推奨になっています。必ず`docker compose`コマンドを利用してください。
 
-(3) 次のコマンドで、NginxとPostgresのコンテナが起動していることを確認してください。
+(3) 次のコマンドで、NginxとPostgreSQLのコンテナが起動していることを確認してください。
+
+> コンテナ名がdocker-compose.yamlの`container_name`で指定したものになっていることに注目してください。
 
 ```shell
 $ docker container ls
@@ -54,8 +57,8 @@ CONTAINER ID   IMAGE           COMMAND                  CREATED              STA
 f2b3a69eef92   postgres:15.3   "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:5555->5432/tcp, :::5555->5432/tcp   db-server
 ```
 
-## Docker Composeによる複数コンテナの停止
-(1) 次のコマンドでコンテナを停止してください。
+## Docker Composeによる複数コンテナの停止＋削除
+(1) 次のコマンドでコンテナを停止＋削除してください。
 
 ```shell
 $ docker compose down -v
@@ -65,7 +68,9 @@ $ docker compose down -v
  ⠿ Network ex04_default  Removed    0.2s
 ```
 
-> `-v`オプションは、コンテナのデータを保存しているボリュームを削除することを示します。
+> - 必ずdocker-compose.yamlと同じディレクトリで実行する必要があります。
+>   - 同じディレクトリでない場合や、ファイル名がdocker-compose.yamlでない場合は、`docker compose -f <YAMLファイルのパス> up -d`のようにします。
+> - `-v`オプションは、コンテナのデータを保存しているボリュームを削除することを示します。
 
 (2) 次のコマンドで、コンテナが停止＋削除されたことを確認してください。
 
@@ -73,3 +78,5 @@ $ docker compose down -v
 $ docker container ls -a
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
+
+> 削除せず停止のみしたい場合は`docker compose stop`を実行します（その後、再び起動するには`docker compose start`）。
