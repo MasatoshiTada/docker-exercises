@@ -1,0 +1,16 @@
+services:
+  web:
+    container_name: web-server
+    image: nginx:1.25
+    ports:
+      - "8080:80"
+  db:
+    container_name: db-server
+    image: postgres:15.3
+    ports:
+      - "5555:5432"
+    # 環境変数の設定 (https://hub.docker.com/_/postgres)
+    environment:  # 環境変数の設定
+      - POSTGRES_DB=sample
+      - POSTGRES_USER=sample
+      - POSTGRES_PASSWORD=sample

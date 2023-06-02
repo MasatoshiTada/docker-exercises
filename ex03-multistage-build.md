@@ -6,7 +6,7 @@
 
 本演習のコマンドは、すべてex03フォルダで実行してください。
 
-```bash
+```shell
 $ cd ex03
 ```
 
@@ -37,7 +37,7 @@ CMD ["java", "-jar", "/srv/application.jar"]
 
 > コンテナイメージの他に、各ライブラリのJARファイルもダウンロードされますので、時間がかかります。
 
-```bash
+```shell
 $ docker image build -t spring-boot-sample:0.0.1 .
 [+] Building 4.0s (15/15) FINISHED                                                                                                                              
  => [internal] load build definition from Dockerfile                                                                                                       0.0s
@@ -65,7 +65,7 @@ $ docker image build -t spring-boot-sample:0.0.1 .
 
 (3) 次のコマンドで、コンテナイメージが作成されたことを確認してください。
 
-```bash
+```shell
 $ docker image ls
 REPOSITORY                                        TAG       IMAGE ID       CREATED          SIZE
 spring-boot-sample                                0.0.1     d9aafb45fb44   5 minutes ago    297MB
@@ -74,7 +74,7 @@ spring-boot-sample                                0.0.1     d9aafb45fb44   5 min
 ## コンテナの起動
 (1) 次のコマンドで、コンテナを起動してください（run.shに同じコマンドが書いてあります）。
 
-```bash
+```shell
 $ docker container run --rm -p 8080:8080 spring-boot-sample:0.0.1
 
   .   ____          _            __ _ _
@@ -106,7 +106,7 @@ $ docker container run --rm -p 8080:8080 spring-boot-sample:0.0.1
 
 (2) まだログインしていない場合は、次のコマンドで、Docker Hubにログインしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。Passwordには、パスワードではなくアクセストークンを入力してください。
 
-```bash
+```shell
 $ docker login -u xxxxxxxx
 Password: 
 Login Succeeded
@@ -114,13 +114,13 @@ Login Succeeded
 
 (3) 次のコマンドで、コンテナイメージに自分のユーザー名を含むタグを付加してください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
 
-```bash
+```shell
 $ docker tag spring-boot-sample:0.0.1 xxxxxxxx/spring-boot-sample:0.0.1
 ```
 
 (4) 次のコマンドで、先ほど付加したタグを確認してください。コンテナイメージが2つあるように見えますが、1つのイメージに2つのタグが付加されているだけです（ `IMAGE ID` が同じであることから、同一のイメージであることが分かります）。
 
-```bash
+```shell
 $ docker image ls
 REPOSITORY                                        TAG       IMAGE ID       CREATED          SIZE
 spring-boot-sample                                0.0.1     d9aafb45fb44   6 minutes ago    297MB
@@ -129,7 +129,7 @@ mtadacs/spring-boot-sample                        0.0.1     d9aafb45fb44   6 min
 
 (5) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
 
-```bash
+```shell
 $ docker image push xxxxxxxx/spring-boot-sample:0.0.1
 The push refers to repository [docker.io/mtadacs/spring-boot-sample]
 1802536ee673: Pushed 

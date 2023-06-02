@@ -8,7 +8,7 @@ Nginxのコンテナイメージを自分で作成することで、Dockerfile�
 
 本演習のコマンドは、すべてex02フォルダで実行してください。
 
-```bash
+```shell
 $ cd ex02
 ```
 
@@ -43,7 +43,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 (2) 次のコマンドで、コンテナイメージをビルドしてください（build.shに同じコマンドが書いてあります）。
 
-```bash
+```shell
 $ docker image build -t my-nginx:0.0.1 .
 [+] Building 38.5s (8/9)
  => [internal] load build definition from Dockerfile                                                                            0.1s
@@ -71,7 +71,7 @@ $ docker image build -t my-nginx:0.0.1 .
 
 (3) 次のコマンドで、コンテナイメージが作成されたことを確認してください。
 
-```bash
+```shell
 $ docker image ls
 REPOSITORY                       TAG                       IMAGE ID       CREATED          SIZE
 my-nginx                                          0.0.1     a5c38a77fa51   3 minutes ago   176MB
@@ -81,7 +81,7 @@ my-nginx                                          0.0.1     a5c38a77fa51   3 min
 ## コンテナの起動
 (1) 次のコマンドで、コンテナを起動してください（run.shに同じコマンドが書いてあります）。
 
-```bash
+```shell
 $ docker container run --rm -p 8080:80 my-nginx:0.0.1
 ```
 
@@ -100,7 +100,7 @@ $ docker container run --rm -p 8080:80 my-nginx:0.0.1
 
 (3) 次のコマンドで、Docker Hubにログインしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。Passwordには、パスワードではなくアクセストークンを入力してください。
 
-```bash
+```shell
 $ docker login -u xxxxxxxx
 Password: 
 Login Succeeded
@@ -108,13 +108,13 @@ Login Succeeded
 
 (4) 次のコマンドで、コンテナイメージに自分のユーザー名を含むタグを付加してください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
 
-```bash
+```shell
 $ docker tag my-nginx:0.0.1 xxxxxxxx/my-nginx:0.0.1
 ```
 
 (5) 次のコマンドで、先ほど付加したタグを確認してください。コンテナイメージが2つあるように見えますが、1つのイメージに2つのタグが付加されているだけです（ `IMAGE ID` が同じであることから、同一のイメージであることが分かります）。
 
-```bash
+```shell
 $ docker image ls
 REPOSITORY                       TAG                       IMAGE ID       CREATED          SIZE
 my-nginx                         0.0.1                     4ef5d7a3c65c   27 minutes ago   149MB
@@ -123,7 +123,7 @@ xxxxxxxx/my-nginx                0.0.1                     4ef5d7a3c65c   27 min
 
 (6) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
 
-```bash
+```shell
 $ docker image push xxxxxxxx/my-nginx:0.0.1
 The push refers to repository [docker.io/xxxxxxxx/my-nginx]
 9e3a75901c15: Pushed 
