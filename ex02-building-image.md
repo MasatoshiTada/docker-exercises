@@ -41,6 +41,9 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
+> contentディレクトリ内のindex.htmlを、Nginxコンテナ内の/var/www/htmlディレクトリにコピーしています。
+> 後の手順でNginxにアクセスした際は、このindex.htmlが表示されます。
+
 (2) 次のコマンドで、コンテナイメージをビルドしてください（build.shに同じコマンドが書いてあります）。
 
 ```shell
