@@ -5,128 +5,154 @@
 WebサーバーNginxのコンテナを利用して、コンテナの作成・起動・停止・終了などのライフサイクルを体験します。
 
 # 手順
-## コンテナの作成
-(1) 次のコマンドで、①Nginx 1.19のコンテナを作成、②ホストのポート番号8080とコンテナのポート番号80をマッピング、を行ってください。
+## イメージのプル
+(1) 次のコマンドで、Nginx 1.25のイメージをプルしてください。
 
-```bash
-$ docker container create -p 8080:80 nginx:1.19
-Unable to find image 'nginx:1.19' locally
-1.19: Pulling from library/nginx
-6fcf2156bc23: Pull complete 
-31ca62f63eaf: Pull complete 
-1cd5998f3010: Pull complete 
-b2dd8627b82f: Pull complete 
-c4d503e83445: Pull complete 
-036b0382d2d7: Pull complete 
-Digest: sha256:bae781e7f518e0fb02245140c97e6ddc9f5fcf6aecc043dd9d17e33aec81c832
-Status: Downloaded newer image for nginx:1.19
-e026f95ec496f80bbe43022bdeeeeb4711c58bf104a465630c6a10315be317b4
+```shell
+$ docker image pull nginx:1.25
+1.25: Pulling from library/nginx
+f03b40093957: Pull complete 
+eed12bbd6494: Pull complete 
+fa7eb8c8eee8: Pull complete 
+7ff3b2b12318: Pull complete 
+0f67c7de5f2c: Pull complete 
+831f51541d38: Pull complete 
+Digest: sha256:af296b188c7b7df99ba960ca614439c99cb7cf252ed7bbc23e90cfda59092305
+Status: Downloaded newer image for nginx:1.25
+docker.io/library/nginx:1.25
+```
+
+(2) 次のコマンドで、Nginx 1.25のイメージがプルされたことを確認してください。
+
+```shell
+$ docker image ls
+REPOSITORY                                        TAG       IMAGE ID       CREATED         SIZE
+nginx                                             1.25      f9c14fe76d50   8 days ago      143MB
+...
+```
+
+> 明示的にイメージのプルをすることはほとんどありません。コンテナ作成（次で説明）の際、ローカルにイメージが存在しなければ自動的にプルされるからです。
+> しかし今回は、コンテナのライフサイクルを学ぶために敢えて明示的なプルを行っています。
+
+## コンテナの作成
+(1) 次のコマンドで、①Nginx 1.25のコンテナを作成、②ホストのポート番号8080とコンテナのポート番号80をマッピング、を行ってください。
+
+```shell
+$ docker container create -p 8080:80 nginx:1.25
+baec1d64c594aeb93e02f04aa5fa502d0b9d040730826edfff26af649aa7e1c8
 ```
 
 (2) 次のコマンドで、コンテナが作成されたことを確認してください。併せて、コンテナIDをメモしてください。
 
-```bash
+```shell
 $ docker container ls -a
-CONTAINER ID   IMAGE          COMMAND                  CREATED             STATUS                         PORTS     NAMES
-e026f95ec496   nginx:1.19     "/docker-entrypoint.…"   2 minutes ago       Created                                  vibrant_jang
+CONTAINER ID   IMAGE           COMMAND                   CREATED              STATUS       PORTS     NAMES
+baec1d64c594   nginx:1.25      "/docker-entrypoint.…"    About a minute ago   Created                stoic_edison
+...
 ```
 
 (3) 次のコマンドで、まだコンテナが起動していないことを確認してください。
 
-```bash
-$ docker container ls 
+```shell
+$ docker container ls
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
 ## コンテナの起動
 (1) 次のコマンドで、作成したコンテナを起動してください（コンテナIDは先ほどメモしたものに置き換えてください）。
 
-```bash
-$ docker container start e026f95ec496
-e026f95ec496
+```shell
+$ docker container start baec1d64c594
+baec1d64c594
 ```
 
 (2) 次のコマンドで、コンテナが起動したことを確認してください。
 
-```bash
+```shell
 $ docker container ls 
-CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS         PORTS                  NAMES
-e026f95ec496   nginx:1.19   "/docker-entrypoint.…"   3 minutes ago    Up 1 minutes   0.0.0.0:8080->80/tcp   vibrant_jang
+CONTAINER ID   IMAGE        COMMAND                  CREATED         STATUS         PORTS                                   NAMES
+baec1d64c594   nginx:1.25   "/docker-entrypoint.…"   3 minutes ago   Up 5 seconds   0.0.0.0:8080->80/tcp, :::8080->80/tcp   stoic_edison
 ```
 
 (3) ブラウザで http://localhost:8080 にアクセスしてください。Nginxのトップページが表示されれば成功です。なお、このページは後の手順でも使いますので、開いたままにしておいてください。
 
-## コンテナの一時停止・再開
-(1) 次のコマンドで、コンテナ内の全プロセスを一時停止してください。
-
-```bash
-$ docker container pause e026f95ec496
-e026f95ec496
-```
-
-(2) 次のコマンドで、コンテナ内のプロセスが一時停止状態（ `Paused` ）であることを確認してください。
-
-```bash
-$ docker container ls
-CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS                  PORTS                  NAMES
-e026f95ec496   nginx:1.19   "/docker-entrypoint.…"   13 minutes ago   Up 5 minutes (Paused)   0.0.0.0:8080->80/tcp   vibrant_jang
-```
-
-(3) ブラウザで再読み込みしてください。再読み込みがいつまで経っても終わらないはずです。これは、コンテナ内のNginxプロセスが一時停止中であるためです。
-
-(4) 次のコマンドで、コンテナ内のプロセスを再開してください。
-
-```bash
-$ docker container unpause e026f95ec496
-e026f95ec496
-```
-
-(5) 次のコマンドで、コンテナが起動状態であることを確認してください。
-
-```bash
-$ docker container ls
-CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS         PORTS                  NAMES
-e026f95ec496   nginx:1.19   "/docker-entrypoint.…"   17 minutes ago   Up 9 minutes   0.0.0.0:8080->80/tcp   vibrant_jang
-```
-
-(6) ブラウザで再読み込みしてください。再読み込みがすぐに終わるはずです。これは、コンテナ内のNginxプロセスが起動中になったためです。
-
 ## コンテナの停止
 (1) 次のコマンドで、コンテナを停止してください。
 
-```bash
-$ docker container stop e026f95ec496 
-e026f95ec496
+```shell
+$ docker container stop baec1d64c594 
+baec1d64c594
 ```
 
 (2) 次のコマンドで、コンテナが停止していることを確認してください。
 
-```bash
-$ docker container ls                 
+```shell
+$ docker container ls
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
 (3) 次のコマンドで、コンテナがまだ存在していることを確認してください。
 
-```bash
+```shell
 $ docker container ls -a
-CONTAINER ID   IMAGE        COMMAND                  CREATED             STATUS                      PORTS     NAMES
-e026f95ec496   nginx:1.19   "/docker-entrypoint.…"   34 minutes ago      Exited (0) 2 minutes ago              vibrant_jang
+CONTAINER ID   IMAGE             COMMAND                   CREATED         STATUS                       PORTS       NAMES
+baec1d64c594   nginx:1.25        "/docker-entrypoint.…"    6 minutes ago   Exited (137) 7 seconds ago               stoic_edison
 ```
 
 (4) ブラウザで再読み込みしてください。アクセスできない旨が表示されるはずです。これは、コンテナが停止したためです。
 
+> 停止したコンテナは`docker container start <コンテナID>`で再び起動できます。
+
 ## コンテナの削除
 (1) 次のコマンドで、コンテナを削除してください。
 
-```bash
-$ docker container rm e026f95ec496          
-e026f95ec496
+```shell
+$ docker container rm baec1d64c594
+baec1d64c594
 ```
+
+> まだコンテナが停止していない状態で削除しようとするとエラーになります。
 
 (2) 次のコマンドで、コンテナが削除されたことを確認してください。
 
-```bash
+```shell
 $ docker container ls -a
-CONTAINER ID   IMAGE        COMMAND                  CREATED             STATUS                      PORTS     NAMES
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+## docker container runコマンドの利用
+`docker container run`コマンドは、コンテナの作成および起動を行います。すなわち、`docker container create`および`docker container start`と同等の機能を持ちます。
+
+(1) 次のコマンドで、Nginx 1.25コンテナの作成およ起動を行ってください。
+
+```shell
+$ docker container run -d --rm -p 8080:80 nginx:1.25
+858111422f5101fa7ce5dd983d8561c5f4c2c195365f59aa7bc83b319c51d0e6
+```
+
+> - `-d`オプションは、このNginxコンテナがバックグラウンドで動くことを示します。このオプションが無い場合、コマンドを実行したターミナルにNginxのログが表示されます。コンテナの停止はCtrl+Cで行います。
+> - `--rm`オプションは、このNginxコンテナが停止した際に削除されることを示します。このオプションが無い場合、コンテナを停止しても削除がされませんので、注意してください。
+
+(2) 次のコマンドで、コンテナが起動したことを確認してください。
+
+```shell
+$ docker container ls
+CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+858111422f51   nginx:1.25   "/docker-entrypoint.…"   15 seconds ago   Up 12 seconds   0.0.0.0:8080->80/tcp, :::8080->80/tcp   compassionate_chebyshev
+```
+
+(3) ブラウザで http://localhost:8080 にアクセスしてください。Nginxのトップページが表示されれば成功です。
+
+(4) 次のコマンドで、コンテナを停止してください。
+
+```shell
+$ docker container stop 858111422f51 
+858111422f51
+```
+
+(5) 次のコマンドで、コンテナが削除されたことを確認してください。
+
+```shell
+$ docker container ls -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```

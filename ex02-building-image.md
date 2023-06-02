@@ -45,21 +45,28 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ```bash
 $ docker image build -t my-nginx:0.0.1 .
-[+] Building 0.1s (8/8) FINISHED                                                                                                    
- => [internal] load build definition from Dockerfile                                                                           0.0s
- => => transferring dockerfile: 636B                                                                                           0.0s
- => [internal] load .dockerignore                                                                                              0.0s
- => => transferring context: 2B                                                                                                0.0s
- => [internal] load metadata for docker.io/library/ubuntu:20.04                                                                0.0s
- => [internal] load build context                                                                                              0.0s
- => => transferring context: 69B                                                                                               0.0s
- => [1/3] FROM docker.io/library/ubuntu:20.04                                                                                  0.0s
- => CACHED [2/3] RUN ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime     && echo Asia/Tokyo > /etc/timezone     && apt   0.0s
- => CACHED [3/3] COPY ./contents /var/www/html                                                                                 0.0s
- => exporting to image                                                                                                         0.0s
- => => exporting layers                                                                                                        0.0s
- => => writing image sha256:4ef5d7a3c65cebf632bf1641d1af025a07296aff6135d368d85f496e68e955c7                                   0.0s
- => => naming to docker.io/library/my-nginx:0.0.1                                                                              0.0s
+[+] Building 38.5s (8/9)
+ => [internal] load build definition from Dockerfile                                                                            0.1s
+ => => transferring dockerfile: 624B                                                                                            0.0s
+ => [internal] load .dockerignore                                                                                               0.1s
+ => => transferring context: 2B                                                                                                 0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:20.04                                                                 6.8s
+ => [auth] library/ubuntu:pull token for registry-1.docker.io                                                                   0.0s
+ => [1/3] FROM docker.io/library/ubuntu:20.04@sha256:db8bf6f4fb351aa7a26e27ba2686cf35a6a409f65603e59d4c203e58387dc6b3          31.5s
+ => => resolve docker.io/library/ubuntu:20.04@sha256:db8bf6f4fb351aa7a26e27ba2686cf35a6a409f65603e59d4c203e58387dc6b3           0.0s
+ => => sha256:88bd6891718934e63638d9ca0ecee018e69b638270fe04990a310e5c78ab4a92 2.30kB / 2.30kB                                  0.0s
+ => => sha256:ca1778b6935686ad781c27472c4668fc61ec3aeb85494f72deb1921892b9d39e 27.50MB / 27.50MB                                1.3s
+ => => sha256:db8bf6f4fb351aa7a26e27ba2686cf35a6a409f65603e59d4c203e58387dc6b3 1.13kB / 1.13kB                                  0.0s
+ => => sha256:b795f8e0caaaacad9859a9a38fe1c78154f8301fdaf0872eaf1520d66d9c0b98 424B / 424B                                      0.0s
+ => => extracting sha256:ca1778b6935686ad781c27472c4668fc61ec3aeb85494f72deb1921892b9d39e                                       2.6s
+ => [internal] load build context                                                                                               0.0s
+ => => transferring context: 290B                                                                                               0.0s
+ => [2/3] RUN ln -snf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime     && echo Asia/Tokyo > /etc/timezone     && apt update     && apt install -y nginx          25.4s
+ => [3/3] COPY ./contents /var/www/html                                                                                         0.1s 
+ => exporting to image                                                                                                          1.7s 
+ => => exporting layers                                                                                                         1.7s
+ => => writing image sha256:a5c38a77fa51b89ad1c3ca1cdaa5f30c27e6d265f8d2ef68014a7e9b5fc3ffee                                    0.0s
+ => => naming to docker.io/library/my-nginx:0.0.1
 ```
 
 (3) 次のコマンドで、コンテナイメージが作成されたことを確認してください。
@@ -67,7 +74,8 @@ $ docker image build -t my-nginx:0.0.1 .
 ```bash
 $ docker image ls
 REPOSITORY                       TAG                       IMAGE ID       CREATED          SIZE
-my-nginx                         0.0.1                     4ef5d7a3c65c    1 minutes ago   149MB
+my-nginx                                          0.0.1     a5c38a77fa51   3 minutes ago   176MB
+...
 ```
 
 ## コンテナの起動
@@ -77,6 +85,8 @@ my-nginx                         0.0.1                     4ef5d7a3c65c    1 min
 $ docker container run --rm -p 8080:80 my-nginx:0.0.1
 ```
 
+> ログは何も出ません。
+
 (2) ブラウザで http://localhost:8080 にアクセスしてください。サンプルページが表示されれば成功です。
 
 (3) ターミナルでCtrl+Cを押下してください。コンテナが停止します。
@@ -84,23 +94,25 @@ $ docker container run --rm -p 8080:80 my-nginx:0.0.1
 ## コンテナイメージのアップロード
 (1) まだDocker Hubのアカウントを持っていない場合は、 https://hub.docker.com/ から作成してください。
 
-(2) 次のコマンドで、Docker Hubにログインしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
+(2) Docker Hubの[アカウント設定画面](https://hub.docker.com/settings/security)で、[Read, Write, Delete]スコープを持つアクセストークンがあるか確認してください。無い場合は[New Access Token]から作成してください。
+
+![Docker Hubのアクセストークン](img/docker-hub-access-token.png)
+
+(3) 次のコマンドで、Docker Hubにログインしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。Passwordには、パスワードではなくアクセストークンを入力してください。
 
 ```bash
-$ docker login
-Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
-Username: xxxxxxxx
+$ docker login -u xxxxxxxx
 Password: 
 Login Succeeded
 ```
 
-(3) 次のコマンドで、コンテナイメージに自分のユーザー名を含むタグを付加してください。
+(4) 次のコマンドで、コンテナイメージに自分のユーザー名を含むタグを付加してください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
 
 ```bash
 $ docker tag my-nginx:0.0.1 xxxxxxxx/my-nginx:0.0.1
 ```
 
-(4) 次のコマンドで、先ほど付加したタグを確認してください。コンテナイメージが2つあるように見えますが、1つのイメージに2つのタグが付加されているだけです（ `IMAGE ID` が同じであることから、同一のイメージであることが分かります）。
+(5) 次のコマンドで、先ほど付加したタグを確認してください。コンテナイメージが2つあるように見えますが、1つのイメージに2つのタグが付加されているだけです（ `IMAGE ID` が同じであることから、同一のイメージであることが分かります）。
 
 ```bash
 $ docker image ls
@@ -109,17 +121,15 @@ my-nginx                         0.0.1                     4ef5d7a3c65c   27 min
 xxxxxxxx/my-nginx                0.0.1                     4ef5d7a3c65c   27 minutes ago   149MB
 ```
 
-(5) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。
+(6) 次のコマンドで、コンテナイメージをDocker Hubにアップロードしてください。 `xxxxxxxx` の部分は自分のDocker Hubユーザー名を入力してください。
 
 ```bash
-$ docker image push xxxxxxxx/my-nginx:0.0.1        
+$ docker image push xxxxxxxx/my-nginx:0.0.1
 The push refers to repository [docker.io/xxxxxxxx/my-nginx]
-3017b72d93d7: Pushed 
-69b4b94864b7: Pushed 
-7137a365e1e4: Pushed 
-9c64db1afb9e: Pushed 
-8d4eb2300df0: Pushed 
-0.0.1: digest: sha256:d1be392b494958959d11189adbe3a1e08bfdd8d6be3eccd70ef9f1df9ace8b20 size: 1362
+9e3a75901c15: Pushed 
+dc59f64d9a76: Pushed 
+6f37ca73c74f: Mounted from library/ubuntu 
+0.0.1: digest: sha256:2a2ea59106d5fce30e764f067a6ee30c4d46caa494ba3add6e1504ad7138cdea size: 948
 ```
 
-(6) ブラウザで https://hub.docker.com/ にアクセスしてください。コンテナイメージ一覧の中にmy-nginxが確認できるはずです。
+(7) ブラウザで https://hub.docker.com/ にアクセスしてください。コンテナイメージ一覧の中にmy-nginxが確認できるはずです。

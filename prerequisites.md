@@ -1,13 +1,19 @@
 この演習を行う際に必要なもの
 =======================
 
-# インストールが必要なもの
-- Docker Desktop（MacでもWindowsでもOK）
-    - [インストール方法(Mac)](https://qiita.com/suke_masa/items/b5f9283b4125a22667e8)
-    - [インストール方法(Windows)](https://qiita.com/suke_masa/items/c1210f7cc599ab7ae461)
+# 環境
+- macOS
+  - 動作確認はIntel版で行っています。
+  - しかし、おそらくApple Silicon版でも動作します。
+- Rancher Desktop
+  - [インストール方法](https://docs.rancherdesktop.io/getting-started/installation#macos)
+    - docker(moby)で設定してください。
 - テキストエディタ（Visual Studio Codeなど何でもOK）
-    - [インストール方法(Visual Studio Code・Mac)](https://qiita.com/suke_masa/items/9579eb7fab7b42dea673)
-    - [インストール方法(Visual Studio Code・Windows)](https://qiita.com/suke_masa/items/91fddf0728a290b72fc4)
+  - [インストール方法(Visual Studio Code・Mac)](https://qiita.com/suke_masa/items/9579eb7fab7b42dea673)
+- Docker Hub
+  - 事前にアカウントを作成してください。
+
+> Windowsでの動作確認は行っていません。
 
 # 前提知識
 - ターミナルによるコマンド操作ができる
