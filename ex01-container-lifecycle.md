@@ -42,6 +42,8 @@ $ docker container create -p 8080:80 nginx:1.25
 baec1d64c594aeb93e02f04aa5fa502d0b9d040730826edfff26af649aa7e1c8
 ```
 
+> `--name`オプションで任意のコンテナ名を指定することもできます。
+
 (2) 次のコマンドで、コンテナが作成されたことを確認してください。併せて、コンテナIDをメモしてください。
 
 ```shell
@@ -50,6 +52,9 @@ CONTAINER ID   IMAGE           COMMAND                   CREATED              ST
 baec1d64c594   nginx:1.25      "/docker-entrypoint.…"    About a minute ago   Created                stoic_edison
 ...
 ```
+
+> `NAMES`には、ランダムな英単語によるコンテナ名が指定されます。コンテナ作成時に`--name`オプションを指定した場合は、その名前がコンテナ名になります。
+> 以降の作業でコンテナIDを指定する際、代わりにコンテナ名を指定することも可能です。
 
 (3) 次のコマンドで、まだコンテナが起動していないことを確認してください。
 
@@ -156,3 +161,5 @@ $ docker container stop 858111422f51
 $ docker container ls -a
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
+
+> 停止しただけで削除もされるのは、`docker container run`での起動時に`--rm`オプションを指定していたからです。
